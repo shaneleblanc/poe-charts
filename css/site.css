@@ -1,0 +1,40 @@
+:root {
+  --color-bg: #F7C7DB;
+  --color-bar: #FCAAFC;
+  --color-light: #F79AD3;
+  --color-medium: #C86FC9;
+  --color-dark: #8E518D;
+  --color-vibrant: #CC00AC;
+  --page-spacing: 10px;
+}
+html, body {
+  margin: 0;
+  background-color: #FAFAFA;
+  justify-content: center;
+  display: flex;
+
+}
+.BarGraph {
+  display: grid;
+  background-color: var(--color-bg);
+  margin-left: var(--page-spacing);
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(100, 1fr);
+  grid-column-gap: 5px;
+  height: 90vh;
+  width: 60vw;
+  padding: 10px 10px;
+  align-items: flex-end;
+}
+
+
+.BarGraph-bar {
+  margin: 0;
+  padding: 0;
+  grid-row-start: 101;
+  grid-row-end: 1;
+  border-radius: 5px 5px 0 0;
+  font-family: Tinos, Serif;
+  background-color: var(--color-bar);
+  color: var(--color-vibrant);
+}
