@@ -36,5 +36,5 @@ html, body {
   border-radius: 5px 5px 0 0;
   font-family: Tinos, Serif;
   background-color: var(--color-bar);
-  color: var(--color-vibrant);
+  color: var(--color-light);
 }
