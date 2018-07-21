@@ -8,9 +8,14 @@
     <title>title</title>
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=font1|font2|etc" type="text/css">
   <link rel="stylesheet" href="css/site.css" type="text/css">
+  <script type="text/javascript" src="js/main.js">
+
+  </script>
+
   </head>
   <body>
-    <div class="BarGraph">
+
+    <!--<div class="BarGraph">
       <div class="BarGraph-bar" onClick="alert('Chaos Orbs 1 : 1 chaos')" style="height: 50%">Chaos Orb</div>
       <div class="BarGraph-bar" onClick="alert('Regal Orbs .83 : 1 chaos')" style="height: 60%">Regal Orb</div>
       <div class="BarGraph-bar" onClick="alert('Alchemy Orbs 2.9 : 1 chaos')" style="height: 17.2%">Alchemy Orb</div>
@@ -24,6 +29,13 @@
       <div class="BarGraph-bar" onClick="alert('Jeweller\'s Orbs 7.5 : 1 chaos')" style="height: 6.66%">Jeweller's Orb</div>
       <div class="BarGraph-bar" onClick="alert('Blessed Orbs 2.6 : 1 chaos')" style="height: 19.23%">Blessed Orb</div>
       <div class="BarGraph-bar" onClick="alert('Cartographer\'s Chisels 2.8 : 1 chaos')" style="height: 17.85%">Cartographer's Chisel</div>
-    </div>
+    </div> -->
+    <div class="BarGraph" id="chart">&nbsp;</div>
+    <section id="rates"></section>
+    <script>
+  updateRates();
+  render();
+
+    </script>
   </body>
 </html>

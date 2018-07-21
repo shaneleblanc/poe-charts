@@ -1,22 +1,22 @@
 :root {
-  --color-bg: #F7C7DB;
-  --color-bar: #FCAAFC;
-  --color-light: #F79AD3;
-  --color-medium: #C86FC9;
+  --color-bg: rgba(21, 8, 17, 1);
+  --color-barbg: rgba(38, 8, 28, 1);
+  --color-light: rgba(12, 186, 186, 1);
+  --color-medium: rgba(1, 186, 239, 1);
   --color-dark: #8E518D;
-  --color-vibrant: #CC00AC;
+  --color-bar: rgba(56, 0, 54, 1);
   --page-spacing: 10px;
 }
 html, body {
   margin: 0;
-  background-color: #FAFAFA;
+  background-color: var(--color-bg);
   justify-content: center;
   display: flex;
 
 }
 .BarGraph {
   display: grid;
-  background-color: var(--color-bg);
+  background-color: var(--color-barbg);
   margin-left: var(--page-spacing);
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(100, 1fr);
