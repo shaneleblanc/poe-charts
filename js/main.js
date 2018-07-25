@@ -1,4 +1,5 @@
-const chaosHeight = 10;
+const chaosHeight = 100;
+var chaosIcon = '';
 function updateRates(){
   var result;
   console.log('I\'m updating the rates!!');
@@ -26,16 +27,12 @@ function updateRates(){
     return result;
 }
 function parse(data){
-  let result = {
-    'MirrorofKalandra': data.lines[0].chaosEquivalent,
-    'BlessingofChayula': data.lines[1].chaosEquivalent,
-    'MirrorShard': data.lines[2].chaosEquivalent,
-    'ExaltedOrb': data.lines[3].chaosEquivalent,
-    'AncientOrb': data.lines[4].chaosEquivalent,
-    'HarbingersOrb': data.lines[5].chaosEquivalent,
-    'DivineOrb': data.lines[6].chaosEquivalent,
-    'OrbofAnnulment': data.lines[7].chaosEquivalent,
-    'BlessingofEsh': data.lines[8].chaosEquivalent,
+  chaosIcon = data.currencyDetails[0].icon;
+  chaosimage = document.getElementById('chaosIcon');
+  chaosimage.src = chaosIcon;
+/*    { name: 'Blessing of Esh',
+      chaosEquivalent: data.lines[8].chaosEquivalent,
+      icon: data.currencyDetails[data.currencyDetails.indexOf
     'BlessingofUulNetol': data.lines[9].chaosEquivalent,
     'MasterCartographersSextant': data.lines[10].chaosEquivalent,
     'OrbofHorizons': data.lines[11].chaosEquivalent,
@@ -46,44 +43,125 @@ function parse(data){
     'BlessingofXoph': data.lines[16].chaosEquivalent,
     'BlessingofTul': data.lines[17].chaosEquivalent,
     'SplinterofChayula': data.lines[18].chaosEquivalent,
-    'RegalOrb': data.lines[19].chaosEquivalent,
-    'GemcuttersPrism': data.lines[20].chaosEquivalent,
-    'VaalOrb': data.lines[21].chaosEquivalent,
-    'OrbofRegret': data.lines[22].chaosEquivalent,
-    'OrbofFusing': data.lines[23].chaosEquivalent,
-    'OrbofScouring': data.lines[24].chaosEquivalent,
-    'BlessedOrb': data.lines[25].chaosEquivalent,
-    'OrbofAlchemy': data.lines[26].chaosEquivalent,
-    'CartographersChisel': data.lines[27].chaosEquivalent,
-    'GlassblowersBauble': data.lines[28].chaosEquivalent,
-    'SplinterofXoph': data.lines[29].chaosEquivalent,
-    'SilverCoin': data.lines[30].chaosEquivalent,
-    'OrbofBinding': data.lines[31].chaosEquivalent,
-    'JewellersOrb': data.lines[32].chaosEquivalent,
-    'SplinterofUulNetol': data.lines[33].chaosEquivalent,
-    'OrbofAlteration': data.lines[34].chaosEquivalent,
-    'ChromaticOrb': data.lines[35].chaosEquivalent,
-    'OrbofChance': data.lines[36].chaosEquivalent,
-    'SplinterofEsh': data.lines[37].chaosEquivalent,
-    'SplinterofTul': data.lines[38].chaosEquivalent,
-    'OrbofAugmentation': data.lines[39].chaosEquivalent,
-    'OrbofTransmutation': data.lines[40].chaosEquivalent,
-    'BlacksmithsWhetstone': data.lines[41].chaosEquivalent,
-    'PortalScroll': data.lines[42].chaosEquivalent,
-    'ArmourersScrap': data.lines[43].chaosEquivalent,
-    'PerandusCoin': data.lines[44].chaosEquivalent,
-    'ScrollofWisdom': data.lines[45].chaosEquivalent
-  };
+    'RegalOrb': data.lines[19].chaosEquivalent,*/
+  let result = [
+    { name: 'Gemcutter\'s Prism',
+      chaosEquivalent: data.lines[20].chaosEquivalent,
+      icon: data.currencyDetails[14].icon
+    },
+    { name: 'Vaal Orb',
+      chaosEquivalent: data.lines[21].chaosEquivalent,
+      icon: data.currencyDetails[7].icon
+    },
+    { name: 'Orb of Regret',
+      chaosEquivalent: data.lines[22].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'Orb of Fusing',
+      chaosEquivalent: data.lines[23].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'OrbofScouring',
+      chaosEquivalent: data.lines[24].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'BlessedOrb',
+      chaosEquivalent: data.lines[25].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'OrbofAlchemy',
+      chaosEquivalent: data.lines[26].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'CartographersChisel',
+      chaosEquivalent: data.lines[27].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'GlassblowersBauble',
+      chaosEquivalent: data.lines[28].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'SplinterofXoph',
+      chaosEquivalent: data.lines[29].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'SilverCoin',
+      chaosEquivalent: data.lines[30].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'OrbofBinding',
+      chaosEquivalent: data.lines[31].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'JewellersOrb',
+      chaosEquivalent: data.lines[32].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'SplinterofUulNetol',
+      chaosEquivalent: data.lines[33].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'OrbofAlteration',
+      chaosEquivalent: data.lines[34].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'ChromaticOrb',
+      chaosEquivalent: data.lines[35].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'OrbofChance',
+      chaosEquivalent: data.lines[36].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'SplinterofEsh',
+      chaosEquivalent: data.lines[37].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'SplinterofTul',
+      chaosEquivalent: data.lines[38].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'OrbofAugmentation',
+      chaosEquivalent: data.lines[39].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'OrbofTransmutation',
+      chaosEquivalent: data.lines[40].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'BlacksmithsWhetstone',
+      chaosEquivalent: data.lines[41].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'PortalScroll',
+      chaosEquivalent: data.lines[42].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'ArmourersScrap',
+      chaosEquivalent: data.lines[43].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'PerandusCoin',
+      chaosEquivalent: data.lines[44].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    },
+    { name: 'ScrollofWisdom',
+      chaosEquivalent: data.lines[45].chaosEquivalent,
+      icon: data.currencyDetails[].icon
+    }
+];
   return result;
 }
 function renderGraphs(rates){
   let chart = document.getElementById("chart");
   for (var key in rates){
-    console.log(rates[key]);
+    chaosEquiv = rates[key].chaosEquivalent;
     let barItem = document.createElement("div");
     barItem.classList.add("BarGraph-bar");
-    barItem.textContent = key;
-    barItem.style.height = chaosHeight * rates[key] + "em";
+    barItem.textContent = '= '+ (1 / rates[key]).toFixed(1) +'x '+ key;
+    let barImage = document.createElement("img");
+    barImage.src = rates[key].icon;
+    barItem.style.height = 100 * rates[key] + "%";
     chart.appendChild(barItem);
   }
 }
@@ -94,9 +172,11 @@ function render(){
   let height = 70;
   let bar = document.createElement("div");
 //  console.log("Here are the rates!",rates);
-
+  let chaosimage = document.createElement('img');
+  chaosimage.id = "chaosIcon";
   bar.classList.add("BarGraph-bar");
-  bar.style.height = chaosHeight + "em";
-  bar.textContent = "Chaos Orb";
+  bar.style.height = chaosHeight + "%";
+  bar.textContent = "= 1 Chaos Orb";
+  bar.appendChild(chaosimage);
   chart.appendChild(bar);
 }
