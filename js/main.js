@@ -46,131 +46,135 @@ function parse(data){
     'RegalOrb': data.lines[19].chaosEquivalent,*/
   let result = [
     { name: 'Gemcutter\'s Prism',
-      chaosEquivalent: data.lines[20].chaosEquivalent,
+      chaosEquivalent: data.lines[19].chaosEquivalent,
       icon: data.currencyDetails[14].icon
     },
     { name: 'Vaal Orb',
-      chaosEquivalent: data.lines[21].chaosEquivalent,
+      chaosEquivalent: data.lines[20].chaosEquivalent,
       icon: data.currencyDetails[7].icon
     },
     { name: 'Orb of Regret',
-      chaosEquivalent: data.lines[22].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      chaosEquivalent: data.lines[21].chaosEquivalent,
+      icon: data.currencyDetails[1].icon
     },
     { name: 'Orb of Fusing',
+      chaosEquivalent: data.lines[22].chaosEquivalent,
+      icon: data.currencyDetails[4].icon
+    },
+    { name: 'Orb of Scouring',
       chaosEquivalent: data.lines[23].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[13].icon
     },
-    { name: 'OrbofScouring',
+    { name: 'Blessed Orb',
       chaosEquivalent: data.lines[24].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[17].icon
     },
-    { name: 'BlessedOrb',
+    { name: 'Orb of Alchemy',
       chaosEquivalent: data.lines[25].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[3].icon
     },
-    { name: 'OrbofAlchemy',
+    { name: 'Cartographer\'s Chisel',
       chaosEquivalent: data.lines[26].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[9].icon
     },
-    { name: 'CartographersChisel',
+    { name: 'Glassblower\'s Bauble',
       chaosEquivalent: data.lines[27].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[19].icon
     },
-    { name: 'GlassblowersBauble',
+    { name: 'Splinter of Xoph',
       chaosEquivalent: data.lines[28].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[55].icon
     },
-    { name: 'SplinterofXoph',
+    { name: 'Silver Coin',
       chaosEquivalent: data.lines[29].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[11].icon
     },
-    { name: 'SilverCoin',
+    { name: 'Orb of Binding',
       chaosEquivalent: data.lines[30].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[73].icon
     },
-    { name: 'OrbofBinding',
+    { name: 'Jewellers Orb',
       chaosEquivalent: data.lines[31].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[10].icon
     },
-    { name: 'JewellersOrb',
+    { name: 'Splinter of UulNetol',
       chaosEquivalent: data.lines[32].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[58].icon
     },
-    { name: 'SplinterofUulNetol',
+    { name: 'Orb of Alteration',
       chaosEquivalent: data.lines[33].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[5].icon
     },
-    { name: 'OrbofAlteration',
+    { name: 'Chromatic Orb',
       chaosEquivalent: data.lines[34].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[16].icon
     },
-    { name: 'ChromaticOrb',
+    { name: 'Orb of Chance',
       chaosEquivalent: data.lines[35].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[15].icon
     },
-    { name: 'OrbofChance',
+    { name: 'Splinter of Esh',
       chaosEquivalent: data.lines[36].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[57].icon
     },
-    { name: 'SplinterofEsh',
+    { name: 'Splinter of Tul',
       chaosEquivalent: data.lines[37].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[56].icon
     },
-    { name: 'SplinterofTul',
+    { name: 'Orb of ugmentation',
       chaosEquivalent: data.lines[38].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[19].icon
     },
-    { name: 'OrbofAugmentation',
+    { name: 'Orb of Transmutation',
       chaosEquivalent: data.lines[39].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[20].icon
     },
-    { name: 'OrbofTransmutation',
+    { name: 'Blacksmith\'s Whetstone',
       chaosEquivalent: data.lines[40].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[24].icon
     },
-    { name: 'BlacksmithsWhetstone',
+    { name: 'Portal Scroll',
       chaosEquivalent: data.lines[41].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[23].icon
     },
-    { name: 'PortalScroll',
+    { name: 'Armourer\'s Scrap',
       chaosEquivalent: data.lines[42].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[25].icon
     },
-    { name: 'ArmourersScrap',
+    { name: 'Perandus Coin',
       chaosEquivalent: data.lines[43].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[12].icon
     },
-    { name: 'PerandusCoin',
+    { name: 'Scroll of Wisdom',
       chaosEquivalent: data.lines[44].chaosEquivalent,
-      icon: data.currencyDetails[].icon
-    },
-    { name: 'ScrollofWisdom',
-      chaosEquivalent: data.lines[45].chaosEquivalent,
-      icon: data.currencyDetails[].icon
+      icon: data.currencyDetails[22].icon
     }
 ];
   return result;
 }
 function renderGraphs(rates){
   let chart = document.getElementById("chart");
-  for (var key in rates){
-    chaosEquiv = rates[key].chaosEquivalent;
+  for (var item of rates){
+    console.log(item);
+    chaosEquiv = item.chaosEquivalent;
     let barItem = document.createElement("div");
     barItem.classList.add("BarGraph-bar");
-    barItem.textContent = '= '+ (1 / rates[key]).toFixed(1) +'x '+ key;
+    barItem.textContent = (1 / chaosEquiv).toFixed(1) +'x '+ item.name;
+    barItem.appendChild(document.createElement("br"));
     let barImage = document.createElement("img");
-    barImage.src = rates[key].icon;
-    barItem.style.height = 100 * rates[key] + "%";
+    barImage.src = item.icon;
+    barItem.appendChild(barImage);
+    barItem.style.height = 100 * chaosEquiv + "%";
     chart.appendChild(barItem);
   }
 }
+
 function render(){
   console.log('render is being called');
-
   let chart = document.getElementById("chart");
   let height = 70;
   let bar = document.createElement("div");
+
 //  console.log("Here are the rates!",rates);
   let chaosimage = document.createElement('img');
   chaosimage.id = "chaosIcon";
