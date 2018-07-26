@@ -7,3 +7,8 @@
 - Using poe.ninja API to retrieve currency icons and chaos equivalents. 
 - Math provides rates and also Exalt equivalencies.
 - Currently using JSON data from 07/25/18 due to CORS issues. 
+
+## TODO:
+- Select different leagues (Incursion, Incursion Hardcore, Standard)
+- Switch chart to Horizontal? (or, fit text correctly in small vertical bars at the end?) 
+- Exalt Equivalency graph? (or, how to show data > 1 chaos orb?)
