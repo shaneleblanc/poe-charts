@@ -1,33 +1,36 @@
-const chaosHeight = 100;
+var chaosHeight = 100;
 var chaosIcon = '';
 var exaltPrice = 60;
 var exaltIcon = '';
-
+var currentMax = 1;
+var league = 'tmphardcore';
 
 function updateRates(){
   var result;
+  let chart = document.getElementById("chart");
+
   console.log('I\'m updating the rates!!');
   dataSent = {
     mode: "cors", // no-cors, cors, *same-origin
         headers: {
             "Content-Type": "application/json; charset=utf-8",
+            "X-Requested-With": "XMLHttpRequest"
         },
   }
 
-  fetch('https://cors-anywhere.herokuapp.com/https://poe.ninja/api/Data/GetCurrencyOverview?league=tmphardcore', dataSent)
-    .then(response => {
-      return response.json();
-    }).then(data => result = data)
+  fetch(`https://cors-anywhere.herokuapp.com/https://poe.ninja/api/Data/GetCurrencyOverview?league=${league}`, dataSent)
+    .then(response => response.json())
+    .then(data => result = data)
     .then(() => {
-      console.log('we have data:',result)
+      console.log('We have data:',result)
       rates = parse(result);
+      renderChaos();
       renderGraphs(rates);
     })
     .catch(err => {
-      console.log("It didn't work!!", err);
+      console.log("League:",league);
+      console.log("It didn't work...", err);
     });
-
-    console.log('returning result:',result)
     return result;
 }
 function parse(data){
@@ -41,20 +44,6 @@ function parse(data){
   <div class="infoline">1 <img src="${exaltIcon}" width="32" height="32"> = ${exaltPrice} <img src="${chaosIcon}" width="32" height="32"></div>
   `;
   chaosimage.src = chaosIcon;
-/*    { name: 'Blessing of Esh',
-      chaosEquivalent: data.lines[8].chaosEquivalent,
-      icon: data.currencyDetails[data.currencyDetails.indexOf
-    'BlessingofUulNetol': data.lines[9].chaosEquivalent,
-    'MasterCartographersSextant': data.lines[10].chaosEquivalent,
-    'OrbofHorizons': data.lines[11].chaosEquivalent,
-    'JourneymanCartographersSextant': data.lines[12].chaosEquivalent,
-    'EngineersOrb': data.lines[13].chaosEquivalent,
-    'ApprenticeCartographersSextant': data.lines[14].chaosEquivalent,
-    'ExaltedShard': data.lines[15].chaosEquivalent,
-    'BlessingofXoph': data.lines[16].chaosEquivalent,
-    'BlessingofTul': data.lines[17].chaosEquivalent,
-    'SplinterofChayula': data.lines[18].chaosEquivalent,
-    'RegalOrb': data.lines[19].chaosEquivalent,*/
 
   let result = [
     { name: 'Gemcutter\'s Prism' },
@@ -82,65 +71,97 @@ function parse(data){
     { name: 'Portal Scroll' },
     { name: 'Armourer\'s Scrap' },
     { name: 'Perandus Coin' },
-    { name: 'Scroll of Wisdom' }
 ];
 for (let item of result){ // Pulls data into the array of objects above
-  console.log(item.name);
-  item.chaosEquivalent = data.lines[data.lines.findIndex(function(currency) {return currency.currencyTypeName === item.name })].chaosEquivalent,
-  item.icon = data.currencyDetails[data.currencyDetails.findIndex(function(currency){ return currency.name === item.name })].icon
+  console.log("setting:",item.name); // Initially hardcoded index values, but these are inconsistent from the API.
+  item.chaosEquivalent = data.lines[data.lines.findIndex(function(currency) {return currency.currencyTypeName === item.name })].chaosEquivalent;
+  item.icon = data.currencyDetails[data.currencyDetails.findIndex(function(currency){ return currency.name === item.name })].icon;
+  if(item.chaosEquivalent > currentMax) currentMax = item.chaosEquivalent;
 }
+  chaosHeight = 100 / currentMax;
   return result;
 }
 function renderGraphs(rates){
+  chaosHeight = 100 / currentMax;
   let chart = document.getElementById("chart");
   for (var item of rates){
     let unspacedName = item.name.replace(/\'/g,'').replace(/\s/g,'');
     let chaosEquiv = item.chaosEquivalent;
     let barItem = document.createElement("div");
     let itemInfo = document.createElement("div");
-    let worth = (1 / chaosEquiv).toFixed(1);
-    itemInfo.classList.add('info');
+    let worth = (1 / chaosEquiv).toFixed(2);
+
     itemInfo.innerHTML = `
     <div class="infoline">10 <img src="${chaosIcon}" width="32" height="32"> = ${Math.round(10 / chaosEquiv)} <img src="${item.icon}" width="32" height="32"></div> <br>
     <div class="infoline">1&nbsp;&nbsp; <img src="${exaltIcon}" width="32" height="32"> = ${Math.round(exaltPrice * worth)} <img src="${item.icon}" width="32" height="32"></div>
     `;
     itemInfo.id = unspacedName + "-info";
     itemInfo.classList.add('hidden');
+
     barItem.classList.add("BarGraph-bar");
     barItem.onmouseover = function(){ console.log('moused over',unspacedName); document.getElementById(unspacedName+'-info').classList.remove('hidden');};
-    barItem.onmouseleave = function(){console.log('moused out of',unspacedName); document.getElementById(unspacedName+'-info').classList.add('hidden');};
-    barItem.textContent = worth +'x \r\n'+ item.name;
+    barItem.onmouseleave = function(){ console.log('moused out of',unspacedName); document.getElementById(unspacedName+'-info').classList.add('hidden');};
+    barItem.textContent = item.name + '\r\n' + worth +':1c';
     barItem.appendChild(document.createElement("br"));
+
     let barImage = document.createElement("img");
     barImage.src = item.icon;
     barItem.appendChild(barImage);
     barItem.appendChild(itemInfo);
-    barItem.style.height = 100 * chaosEquiv + "%";
+    barItem.style.height = (chaosHeight * chaosEquiv).toFixed(2) + "%";
+
+    console.log(item.name + "is worth" + worth + "| chaos equiv: " + chaosEquiv + "height: " + barItem.style.height);
     chart.appendChild(barItem);
   }
 }
 
-function render(){
+function switchLeague(){
+  currentMax = 1; chaosHeight = 100;
+  let title = document.getElementById("league-title");
+  let selectBox = document.getElementById("league");
+  league = selectBox.options[selectBox.selectedIndex].value;
+  let leagueTitle = selectBox.options[selectBox.selectedIndex].textContent;
+  console.log("League",league);
+  title.innerHTML = `Path of Exile Currency Rates in ${leagueTitle}`;
+  renderChaos();
+  updateRates();
+}
+/* TODO: Sort greatest to least
+function sort(){
+  let bars = document.querySelectorAll("BarGraph-bar");
+  let currentMax = 0;
+  for(let bar of bars){
+
+  }
+}*/
+
+function renderChaos(){
   console.log('render is being called');
   let chart = document.getElementById("chart");
-  let height = 70;
+  while(chart.firstChild){
+    chart.removeChild(chart.firstChild);
+  }
   let bar = document.createElement("div");
 
-//  console.log("Here are the rates!",rates);
   let chaosimage = document.createElement('img');
   chaosimage.id = "chaosIcon";
+  chaosimage.src = chaosIcon;
   bar.classList.add("BarGraph-bar");
 
-  bar.onmouseover = ""
-  bar.style.height = chaosHeight + "%";
+  bar.id = "chaosBar";
+  bar.style.height = chaosHeight+"%";
   bar.innerHTML = "1x<br>Chaos Orb<br>";
 
   let itemInfo = document.createElement("div");
   itemInfo.classList.add('info');
   itemInfo.id = "Chaos-info";
   itemInfo.classList.add('hidden');
+  itemInfo.innerHTML = `
+  <div class="infoline">1&nbsp;&nbsp; <img src="${exaltIcon}" width="32" height="32"> = ${exaltPrice} <img src="${chaosIcon}" width="32" height="32"></div>
+  `;
+
   bar.onmouseover = function(){ console.log('moused over chaos'); document.getElementById('Chaos-info').classList.remove('hidden');};
-  bar.onmouseleave = function(){console.log('moused out of chaos'); document.getElementById('Chaos-info').classList.add('hidden');};
+  bar.onmouseleave = function(){ console.log('moused out of chaos'); document.getElementById('Chaos-info').classList.add('hidden');};
 
   bar.appendChild(chaosimage);
   bar.appendChild(itemInfo);
