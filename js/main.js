@@ -26,14 +26,6 @@ function updateRates(){
     .catch(err => {
       console.log("It didn't work!!", err);
     });
-    /*
-    var client = new HttpClient();
-    client.get('https://poe.ninja/api/Data/GetCurrencyOverview?league=tmphardcore', function(response) {
-    console.log("we have data:", response);
-rates    rates = parse(response);
-    renderGraphs(rates);
-});
-*/
 
     console.log('returning result:',result)
     return result;
