@@ -8,12 +8,13 @@ function updateRates(){
   dataSent = {
     mode: "cors", // no-cors, cors, *same-origin
         headers: {
+            "Origin": "https://shaneleblanc.github.io/poe-charts",
             "Content-Type": "application/json; charset=utf-8",
             "Access-Control-Allow-Origin": "*"
             // "Content-Type": "application/x-www-form-urlencoded",
         },
   }
-  fetch('https://cors.io/?https://poe.ninja/api/Data/GetCurrencyOverview?league=tmphardcore', dataSent)
+  fetch('currency.json', dataSent)
     .then(response => {
       return response.json();
     }).then(data => result = data)
