@@ -13,7 +13,7 @@ function updateRates(){
             // "Content-Type": "application/x-www-form-urlencoded",
         },
   }
-  fetch('http://poe.ninja/api/Data/GetCurrencyOverview?league=tmphardcore', dataSent)
+  fetch('https://poe.ninja/api/Data/GetCurrencyOverview?league=tmphardcore', dataSent)
     .then(response => {
       return response.json();
     }).then(data => result = data)
