@@ -10,8 +10,8 @@
 }
 @font-face {
     font-family: 'Fontin SmallCaps';
-    src: url('../fonts/Fontin-SmallCaps.woff2') format('woff2'),
-        url('/home/shane/Projects/poe-charts/fonts/Fontin-SmallCaps.woff') format('woff');
+    src: url('fonts/Fontin-SmallCaps.woff2') format('woff2'),
+        url('fonts/Fontin-SmallCaps.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -25,6 +25,7 @@ html, body {
 }
 .BarGraph {
   display: grid;
+  font-family: 'Fontin SmallCaps';
   background-color: var(--color-barbg);
   margin-left: var(--page-spacing);
   grid-template-columns: repeat(40, 1fr);
@@ -42,15 +43,34 @@ html, body {
   font-family: 'Fontin SmallCaps';
   font-weight: normal;
   font-style: normal;
+  font-size: 20px;
   margin: 0;
   padding: 0;
-  width: 120 px;
+  width: 75px;
   border-radius: 5px 5px 0 0;
   font-family: Tinos, Serif;
   transition: transform 0.5s, filter 0.5s;
-  transform: perspective(1000px) translate3d(0px, 1px, 0px);
   text-align: bottom;
-  color: var(--color-light);
+  color: var(--color-medium);
+}
+.info {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1;
+  grid-template-rows: auto;
+}
+.infoline {
+  display: flex;
+
+  align-items: center;
+  vertical-align: middle;
+}
+.img {
+  vertical-align: middle;
+}
+.hidden {
+  display: hidden;
+  visibility: hidden;
 }
 .BarGraph-bar:nth-child(even){
   background-color: var(--color-bar);
@@ -59,10 +79,11 @@ html, body {
   background-color: var(--color-bar2);
 }
 .BarGraph-bar:hover {
-  filter: brightness(2);
+  filter: brightness(1.25);
   position: relative;
-  top: 50%;
   left: 0;
+  width: 200px;
   z-index: 10;
-  transform: perspective(750px) translate3d(0px, 0px, 150px);
+  transition: width 0s;
+  transform: translate3d(0px, 0px, 0px);
 }
