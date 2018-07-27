@@ -4,12 +4,13 @@ var exaltPrice = 60;
 var exaltIcon = '';
 var currentMax = 1;
 var league = 'tmphardcore';
+var tempRates;
 
 function updateRates(){
   var result;
   let chart = document.getElementById("chart");
 
-  console.log('I\'m updating the rates!!');
+  console.log('I\'m updating the rates!');
   dataSent = {
     mode: "cors", // no-cors, cors, *same-origin
         headers: {
@@ -23,9 +24,9 @@ function updateRates(){
     .then(data => result = data)
     .then(() => {
       console.log('We have data:',result)
-      rates = parse(result);
+      tempRates = parse(result);
       renderChaos();
-      renderGraphs(rates);
+      renderGraphs(tempRates);
     })
     .catch(err => {
       console.log("League:",league);
@@ -42,7 +43,6 @@ function findNearestWholeTrade(itemChaosEquiv) {
   var count = 1;
   while(result.toFixed(1) % 1 !==0){
     result += itemChaosEquiv;
-    console.log(result);
     count++;
   }
   result = Math.round(result);
@@ -61,6 +61,7 @@ function parse(data){
   `;
   chaosimage.src = chaosIcon;
 
+  // Hard coded names for currency items less than 1 chaos
   let result = [
     { name: 'Gemcutter\'s Prism' },
     { name: 'Vaal Orb' },
@@ -89,7 +90,7 @@ function parse(data){
     { name: 'Perandus Coin' },
 ];
 for (let item of result){ // Pulls data into the array of objects above
-  console.log("setting:",item.name); // Initially hardcoded index values, but these are inconsistent from the API.
+  // The index values are inconsistent from the API, so we utilize findIndex and match name strings
   item.chaosEquivalent = data.lines[data.lines.findIndex(function(currency) {return currency.currencyTypeName === item.name })].chaosEquivalent;
   item.icon = data.currencyDetails[data.currencyDetails.findIndex(function(currency){ return currency.name === item.name })].icon;
   if(item.chaosEquivalent > currentMax) currentMax = item.chaosEquivalent;
@@ -97,30 +98,50 @@ for (let item of result){ // Pulls data into the array of objects above
   chaosHeight = 100 / currentMax;
   return result;
 }
+function removeBarItem(index){
+  console.log(`removing ${tempRates[index].name}`);
+  tempRates.splice(index,1);
+  currentMax = 1;
+  for(let item of tempRates) { if(item.chaosEquivalent > currentMax) currentMax = item.chaosEquivalent; }
+  renderChaos();
+  renderGraphs(tempRates);
+}
+
 function renderGraphs(rates){
+  console.log('rendering rates:',rates);
   chaosHeight = 100 / currentMax;
   let chart = document.getElementById("chart");
+  let itemIndex = 0;
   for (var item of rates){
     let unspacedName = item.name.replace(/\'/g,'').replace(/\s/g,'');
     let chaosEquiv = item.chaosEquivalent;
     let barItem = document.createElement("div");
     let itemInfo = document.createElement("div");
+    let deleteButton = document.createElement("button");
     let worth = (1 / chaosEquiv).toFixed(2);
     worth = (worth % 1 === 0) ? parseFloat(worth).toFixed(0) : worth; //Remove decimals when not necessary e.g. 10.00
     let height = (chaosHeight * chaosEquiv).toFixed(2);
     let nearestWholeTrade = findNearestWholeTrade(parseFloat(worth));
+    deleteButton.innerHTML = "Remove"+itemIndex;
+    deleteButton.id = itemIndex;
+    console.log('adding event listener:',deleteButton.id);
+    deleteButton.onclick = function(event){
+      console.log('buttonclicked, deleting',event.target.id);
+      removeBarItem(event.target.id);
+    };
     itemInfo.innerHTML = `
     <div class="infoline">${nearestWholeTrade[1]} <img src="${chaosIcon}" width="32" height="32"> = ${nearestWholeTrade[0]} <img src="${item.icon}" width="32" height="32"></div> <br>
     <div class="infoline">10 <img src="${chaosIcon}" width="32" height="32"> = ${Math.round(10 / chaosEquiv)} <img src="${item.icon}" width="32" height="32"></div> <br>
     <div class="infoline">1&nbsp;&nbsp; <img src="${exaltIcon}" width="32" height="32"> = ${Math.round(exaltPrice * worth)} <img src="${item.icon}" width="32" height="32"></div>
     `;
+
     itemInfo.id = unspacedName + "-info";
     itemInfo.classList.add('hidden');
-
+    itemInfo.appendChild(deleteButton);
     (height > 10) ? barItem.classList.add("BarGraph-bar") : barItem.classList.add("BarGraph-bar-small");
 
-    barItem.onmouseover = function(){ console.log('moused over',unspacedName); document.getElementById(unspacedName+'-info').classList.remove('hidden');};
-    barItem.onmouseleave = function(){ console.log('moused out of',unspacedName); document.getElementById(unspacedName+'-info').classList.add('hidden');};
+    barItem.onmouseover = function(){ document.getElementById(unspacedName+'-info').classList.remove('hidden');};
+    barItem.onmouseleave = function(){ document.getElementById(unspacedName+'-info').classList.add('hidden');};
 
     barItem.textContent = item.name + '\r\n' + worth +':1c';
     barItem.appendChild(document.createElement("br"));
@@ -131,8 +152,9 @@ function renderGraphs(rates){
     barItem.appendChild(itemInfo);
     barItem.style.height = height + "%";
 
-    console.log(item.name + "is worth" + worth + "| chaos equiv: " + chaosEquiv + "height: " + barItem.style.height);
+    //console.log(item.name + "is worth " + worth + "| chaos equiv: " + chaosEquiv + "height: " + barItem.style.height);
     chart.appendChild(barItem);
+    itemIndex++;
   }
 }
 
@@ -169,6 +191,8 @@ function renderChaos(){
   chaosimage.src = chaosIcon;
   bar.classList.add("BarGraph-bar");
 
+// To add delete button to chaos orb, remove most of this code and make Chaos Orb a part of the object array like everything else
+
   bar.id = "chaosBar";
   bar.style.height = chaosHeight+"%";
   bar.innerHTML = "1x<br>Chaos Orb<br>";
@@ -181,8 +205,8 @@ function renderChaos(){
   <div class="infoline">1&nbsp;&nbsp; <img src="${exaltIcon}" width="32" height="32"> = ${exaltPrice} <img src="${chaosIcon}" width="32" height="32"></div>
   `;
 
-  bar.onmouseover = function(){ console.log('moused over chaos'); document.getElementById('Chaos-info').classList.remove('hidden');};
-  bar.onmouseleave = function(){ console.log('moused out of chaos'); document.getElementById('Chaos-info').classList.add('hidden');};
+  bar.onmouseover = function(){ document.getElementById('Chaos-info').classList.remove('hidden');};
+  bar.onmouseleave = function(){ document.getElementById('Chaos-info').classList.add('hidden');};
 
   bar.appendChild(chaosimage);
   bar.appendChild(itemInfo);
