@@ -52,6 +52,19 @@ html, body {
   color: var(--color-medium);
   z-index: 1;
 }
+.BarGraph-bar-small {
+  font-family: "Fontin SmallCaps";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+  width: 75px;
+  border-radius: 5px 5px 0 0;
+  transition: transform 0.5s, filter 0.5s;
+  color: var(--color-medium);
+  z-index: 1;
+}
 .info {
   display: grid;
   align-items: center;
@@ -81,13 +94,22 @@ align-content: space-between;
   display: hidden;
   visibility: hidden;
 }
-.BarGraph-bar:nth-child(even){
+[class^="BarGraph-bar"]:nth-child(even){
   background-color: var(--color-bar);
 }
-.BarGraph-bar:nth-child(odd){
+[class^="BarGraph-bar"]:nth-child(odd){
   background-color: var(--color-bar2);
 }
 .BarGraph-bar:hover {
+  filter: brightness(1.25);
+  position: relative;
+  left: 0;
+  width: 200px;
+  z-index: 10;
+  transition: width 0s;
+  transform: translate3d(0px, 0px, 0px);
+}
+.BarGraph-bar-small:hover {
   filter: brightness(1.25);
   position: relative;
   left: 0;

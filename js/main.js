@@ -33,6 +33,22 @@ function updateRates(){
     });
     return result;
 }
+
+function findNearestWholeTrade(itemChaosEquiv) {
+  // In order to trade in whole numbers closest to the actual rate, find the nearest whole numbers
+  // Example: Fusing at 1.75:1 chaos can instead be traded as 7 fusing for 4 chaos
+  var result = 0;
+  result += itemChaosEquiv;
+  var count = 1;
+  while(result.toFixed(1) % 1 !==0){
+    result += itemChaosEquiv;
+    console.log(result);
+    count++;
+  }
+  result = Math.round(result);
+  return [result, count];
+}
+
 function parse(data){
   // Hard code for Chaos and Exalted Orbs
   chaosIcon = data.currencyDetails[0].icon;
@@ -90,17 +106,22 @@ function renderGraphs(rates){
     let barItem = document.createElement("div");
     let itemInfo = document.createElement("div");
     let worth = (1 / chaosEquiv).toFixed(2);
-
+    worth = (worth % 1 === 0) ? parseFloat(worth).toFixed(0) : worth; //Remove decimals when not necessary e.g. 10.00
+    let height = (chaosHeight * chaosEquiv).toFixed(2);
+    let nearestWholeTrade = findNearestWholeTrade(parseFloat(worth));
     itemInfo.innerHTML = `
+    <div class="infoline">${nearestWholeTrade[1]} <img src="${chaosIcon}" width="32" height="32"> = ${nearestWholeTrade[0]} <img src="${item.icon}" width="32" height="32"></div> <br>
     <div class="infoline">10 <img src="${chaosIcon}" width="32" height="32"> = ${Math.round(10 / chaosEquiv)} <img src="${item.icon}" width="32" height="32"></div> <br>
     <div class="infoline">1&nbsp;&nbsp; <img src="${exaltIcon}" width="32" height="32"> = ${Math.round(exaltPrice * worth)} <img src="${item.icon}" width="32" height="32"></div>
     `;
     itemInfo.id = unspacedName + "-info";
     itemInfo.classList.add('hidden');
 
-    barItem.classList.add("BarGraph-bar");
+    (height > 10) ? barItem.classList.add("BarGraph-bar") : barItem.classList.add("BarGraph-bar-small");
+
     barItem.onmouseover = function(){ console.log('moused over',unspacedName); document.getElementById(unspacedName+'-info').classList.remove('hidden');};
     barItem.onmouseleave = function(){ console.log('moused out of',unspacedName); document.getElementById(unspacedName+'-info').classList.add('hidden');};
+
     barItem.textContent = item.name + '\r\n' + worth +':1c';
     barItem.appendChild(document.createElement("br"));
 
@@ -108,7 +129,7 @@ function renderGraphs(rates){
     barImage.src = item.icon;
     barItem.appendChild(barImage);
     barItem.appendChild(itemInfo);
-    barItem.style.height = (chaosHeight * chaosEquiv).toFixed(2) + "%";
+    barItem.style.height = height + "%";
 
     console.log(item.name + "is worth" + worth + "| chaos equiv: " + chaosEquiv + "height: " + barItem.style.height);
     chart.appendChild(barItem);
