@@ -25,7 +25,7 @@ function updateRates(){
     .then(() => {
       console.log('We have data:',result)
       tempRates = parse(result);
-      renderChaos();
+      clearChart();
       renderGraphs(tempRates);
     })
     .catch(err => {
@@ -55,11 +55,6 @@ function parse(data){
   exaltIcon = data.currencyDetails[1].icon;
   exaltPrice = data.lines[2].chaosEquivalent;
   chaosimage = document.getElementById('chaosIcon');
-  let itemInfo = document.getElementById('Chaos-info');
-  itemInfo.innerHTML = `
-  <div class="infoline">1 <img src="${exaltIcon}" width="32" height="32"> = ${exaltPrice} <img src="${chaosIcon}" width="32" height="32"></div>
-  `;
-  chaosimage.src = chaosIcon;
 
   // Hard coded names for currency items less than 1 chaos
   let result = [
@@ -87,23 +82,28 @@ function parse(data){
     { name: 'Blacksmith\'s Whetstone' },
     { name: 'Portal Scroll' },
     { name: 'Armourer\'s Scrap' },
-    { name: 'Perandus Coin' },
 ];
 for (let item of result){ // Pulls data into the array of objects above
   // The index values are inconsistent from the API, so we utilize findIndex and match name strings
+
   item.chaosEquivalent = data.lines[data.lines.findIndex(function(currency) {return currency.currencyTypeName === item.name })].chaosEquivalent;
   item.icon = data.currencyDetails[data.currencyDetails.findIndex(function(currency){ return currency.name === item.name })].icon;
   if(item.chaosEquivalent > currentMax) currentMax = item.chaosEquivalent;
 }
+  result.unshift({ name: 'Chaos Orb',
+                   chaosEquivalent: 1,
+                   icon: chaosIcon});
   chaosHeight = 100 / currentMax;
   return result;
 }
 function removeBarItem(index){
   console.log(`removing ${tempRates[index].name}`);
   tempRates.splice(index,1);
-  currentMax = 1;
-  for(let item of tempRates) { if(item.chaosEquivalent > currentMax) currentMax = item.chaosEquivalent; }
-  renderChaos();
+  let equivs = tempRates.map(item => item.chaosEquivalent);
+  currentMax = Math.max(...equivs);
+//  for(let item of tempRates) { if(item.chaosEquivalent > currentMax) currentMax = item.chaosEquivalent; }
+  console.log('New currentMax',currentMax);
+  clearChart();
   renderGraphs(tempRates);
 }
 
@@ -120,11 +120,11 @@ function renderGraphs(rates){
     let deleteButton = document.createElement("button");
     let worth = (1 / chaosEquiv).toFixed(2);
     worth = (worth % 1 === 0) ? parseFloat(worth).toFixed(0) : worth; //Remove decimals when not necessary e.g. 10.00
-    let height = (chaosHeight * chaosEquiv).toFixed(2);
+    //let height = (chaosHeight * chaosEquiv).toFixed(2);
+    let height = scaleRange(chaosEquiv);
     let nearestWholeTrade = findNearestWholeTrade(parseFloat(worth));
-    deleteButton.innerHTML = "Remove"+itemIndex;
+    deleteButton.innerHTML = "Remove";
     deleteButton.id = itemIndex;
-    console.log('adding event listener:',deleteButton.id);
     deleteButton.onclick = function(event){
       console.log('buttonclicked, deleting',event.target.id);
       removeBarItem(event.target.id);
@@ -156,6 +156,7 @@ function renderGraphs(rates){
     chart.appendChild(barItem);
     itemIndex++;
   }
+
 }
 
 function switchLeague(){
@@ -166,7 +167,7 @@ function switchLeague(){
   let leagueTitle = selectBox.options[selectBox.selectedIndex].textContent;
   console.log("League",league);
   title.innerHTML = `Path of Exile Currency Rates in ${leagueTitle}`;
-  renderChaos();
+  clearChart();
   updateRates();
 }
 /* TODO: Sort greatest to least
@@ -177,13 +178,21 @@ function sort(){
 
   }
 }*/
+function scaleRange(value) { //Scales Number in Range r1 to Number in Range r2
+    let r1 = [0, currentMax];
+    let r2 = [0, 100];
+    return ( value - r1[ 0 ] ) * ( r2[ 1 ] - r2[ 0 ] ) / ( r1[ 1 ] - r1[ 0 ] ) + r2[ 0 ];
+}
 
-function renderChaos(){
-  console.log('render is being called');
+
+
+function clearChart(){
+  console.log('clearChart is being called');
   let chart = document.getElementById("chart");
   while(chart.firstChild){
     chart.removeChild(chart.firstChild);
   }
+  /*
   let bar = document.createElement("div");
 
   let chaosimage = document.createElement('img');
@@ -210,5 +219,5 @@ function renderChaos(){
 
   bar.appendChild(chaosimage);
   bar.appendChild(itemInfo);
-  chart.appendChild(bar);
+  chart.appendChild(bar);*/
 }

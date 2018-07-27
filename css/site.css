@@ -6,6 +6,10 @@
   --color-dark: rgba(56, 0, 54, 1);
   --color-bar: #593b68;
   --color-bar2: #79518e;
+  --color-red1: #7E4564;
+  --color-red2: #501635;
+  --color-red3: #632A49;
+  --color-whitered: #BB90A8;
   --page-spacing: 10px;
 }
 @font-face {
@@ -27,8 +31,8 @@ button {
   text-align: center;
   text-decoration: none;
   white-space: nowrap;
-  background-color: #2aa198;
-color: #002b36;
+  background-color: var(--color-red2);
+  color: var(--color-whitered);
   border-radius: 1px;
   border: 1px solid #ffffff;
   cursor: pointer;
@@ -125,6 +129,10 @@ align-content: space-between;
 }
 [class^="BarGraph-bar"]:nth-child(odd){
   background-color: var(--color-bar2);
+}
+[id$="-info"] {
+  align-content: center;
+  text-align: center;
 }
 .BarGraph-bar:hover {
   filter: brightness(1.25);

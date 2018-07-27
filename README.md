@@ -8,10 +8,10 @@ A bar graph of the most current currency values in Chaos Orbs and Exalted Orbs (
 - The graph is produced using mostly Javascript DOM manipulation and CSS grid.
 
 ## TODO:
-- Add React!
-- More dimensions! More options!@
-- Better CSS
-- Fix the little guys at the end--> more
+- Add React
+- More dimensions, more options
+- Better CSS Styling
+- Fix the smaller bars more by resizing the icons as well
 - Select different leagues (Incursion, Incursion Hardcore, Standard) [Done]
 - Switch chart to Horizontal? (or, fit text correctly in small vertical bars at the end?)
 - Exalt Equivalency graph? (or, how to show data > 1 chaos orb?) [Added Exalts]
