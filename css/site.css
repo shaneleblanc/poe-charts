@@ -10,7 +10,7 @@
   --color-red2: #501635;
   --color-red3: #632A49;
   --color-whitered: #BB90A8;
-  --page-spacing: 10px;
+  --page-spacing: 0px;
 }
 @font-face {
     font-family: 'Fontin SmallCaps';
@@ -59,14 +59,15 @@ button {
   margin-left: var(--page-spacing);
   grid-template-columns: repeat(40, 1fr);
   grid-template-rows: 1;
-  grid-column-gap: 5px;
   grid-gap: 5px;
   height: 80vh;
   width: auto;
-  padding: 10px 10px;
   align-items: flex-end;
   position: relative;
   word-wrap: break-word;
+  border-bottom-style: groove;
+  border-bottom-color: var(--color-red1);
+
 }
 
 .BarGraph-bar {
@@ -148,6 +149,7 @@ align-content: space-between;
   position: relative;
   left: 0;
   width: 200px;
+  height: +100px;
   z-index: 10;
   transition: width 0s;
   transform: translate3d(0px, 0px, 0px);

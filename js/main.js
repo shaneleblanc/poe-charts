@@ -1,4 +1,3 @@
-var chaosHeight = 100;
 var chaosIcon = '';
 var exaltPrice = 60;
 var exaltIcon = '';
@@ -8,16 +7,14 @@ var tempRates;
 
 function updateRates(){
   var result;
-  let chart = document.getElementById("chart");
 
   console.log('I\'m updating the rates!');
   dataSent = {
     mode: "cors", // no-cors, cors, *same-origin
-        headers: {
+    headers: {
             "Content-Type": "application/json; charset=utf-8",
             "X-Requested-With": "XMLHttpRequest"
-        },
-  }
+             }}
 
   fetch(`https://cors-anywhere.herokuapp.com/https://poe.ninja/api/Data/GetCurrencyOverview?league=${league}`, dataSent)
     .then(response => response.json())
@@ -36,27 +33,23 @@ function updateRates(){
 }
 
 function findNearestWholeTrade(itemChaosEquiv) {
-  // In order to trade in whole numbers closest to the actual rate, find the nearest whole numbers
+  // In order to trade in whole numbers closest to the actual rate, find the nearest whole number
   // Example: Fusing at 1.75:1 chaos can instead be traded as 7 fusing for 4 chaos
-  var result = 0;
-  result += itemChaosEquiv;
-  var count = 1;
-  while(result.toFixed(1) % 1 !==0){
-    result += itemChaosEquiv;
-    count++;
+  var product = 0, multiplier = 1;
+  product += itemChaosEquiv;
+  while(product.toFixed(1) % 1 !== 0){
+    product += itemChaosEquiv;
+    multiplier++;
   }
-  result = Math.round(result);
-  return [result, count];
+  product = Math.round(product);
+  return [product, multiplier];
 }
 
 function parse(data){
-  // Hard code for Chaos and Exalted Orbs
   chaosIcon = data.currencyDetails[0].icon;
   exaltIcon = data.currencyDetails[1].icon;
   exaltPrice = data.lines[2].chaosEquivalent;
-  chaosimage = document.getElementById('chaosIcon');
 
-  // Hard coded names for currency items less than 1 chaos
   let result = [
     { name: 'Gemcutter\'s Prism' },
     { name: 'Vaal Orb' },
@@ -88,14 +81,15 @@ for (let item of result){ // Pulls data into the array of objects above
 
   item.chaosEquivalent = data.lines[data.lines.findIndex(function(currency) {return currency.currencyTypeName === item.name })].chaosEquivalent;
   item.icon = data.currencyDetails[data.currencyDetails.findIndex(function(currency){ return currency.name === item.name })].icon;
-  if(item.chaosEquivalent > currentMax) currentMax = item.chaosEquivalent;
+  currentMax = (item.chaosEquivalent > currentMax) ? item.chaosEquivalent : currentMax;
 }
+  // Since Chaos Orb is not a part of the data set, we have to manually add it
   result.unshift({ name: 'Chaos Orb',
                    chaosEquivalent: 1,
                    icon: chaosIcon});
-  chaosHeight = 100 / currentMax;
   return result;
 }
+
 function removeBarItem(index){
   console.log(`removing ${tempRates[index].name}`);
   tempRates.splice(index,1);
@@ -109,7 +103,6 @@ function removeBarItem(index){
 
 function renderGraphs(rates){
   console.log('rendering rates:',rates);
-  chaosHeight = 100 / currentMax;
   let chart = document.getElementById("chart");
   let itemIndex = 0;
   for (var item of rates){
@@ -120,7 +113,6 @@ function renderGraphs(rates){
     let deleteButton = document.createElement("button");
     let worth = (1 / chaosEquiv).toFixed(2);
     worth = (worth % 1 === 0) ? parseFloat(worth).toFixed(0) : worth; //Remove decimals when not necessary e.g. 10.00
-    //let height = (chaosHeight * chaosEquiv).toFixed(2);
     let height = scaleRange(chaosEquiv);
     let nearestWholeTrade = findNearestWholeTrade(parseFloat(worth));
     deleteButton.innerHTML = "Remove";
@@ -145,12 +137,12 @@ function renderGraphs(rates){
 
     barItem.textContent = item.name + '\r\n' + worth +':1c';
     barItem.appendChild(document.createElement("br"));
+    barItem.style.height = height + "%";
 
     let barImage = document.createElement("img");
     barImage.src = item.icon;
     barItem.appendChild(barImage);
     barItem.appendChild(itemInfo);
-    barItem.style.height = height + "%";
 
     //console.log(item.name + "is worth " + worth + "| chaos equiv: " + chaosEquiv + "height: " + barItem.style.height);
     chart.appendChild(barItem);
@@ -160,7 +152,7 @@ function renderGraphs(rates){
 }
 
 function switchLeague(){
-  currentMax = 1; chaosHeight = 100;
+  currentMax = 1;
   let title = document.getElementById("league-title");
   let selectBox = document.getElementById("league");
   league = selectBox.options[selectBox.selectedIndex].value;
